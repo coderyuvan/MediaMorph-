@@ -1,8 +1,8 @@
-import { auth, clerkMiddleware,createRouteMatcher } from '@clerk/nextjs/server'
+import { clerkMiddleware,createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 const isPublicRoute=createRouteMatcher([
-    "/signin",
-    "/signup",
+    "/sign-in",
+    "/sign-up",
     "/",
     "/home"
 ])
@@ -10,7 +10,9 @@ const isPublicApiRoute =createRouteMatcher([
     "/api/videos",
 ])
 export default  clerkMiddleware (async (auth,req)=>{
-    const {userId}= await auth();
+    
+    const {userId}=  await auth();
+    console.log(userId)
     const currentUrl=new URL(req.url)
     const isAccessingDashboard = currentUrl.pathname ==="/home" 
     const isApiRequest=currentUrl.pathname.startsWith("/api")
@@ -22,11 +24,11 @@ export default  clerkMiddleware (async (auth,req)=>{
     if(!userId) {
         // trying to access protected routes
         if(!isPublicRoute(req) &&  !isPublicApiRoute(req)){
-            return NextResponse.redirect(new URL('/signin',req.url));
+            return NextResponse.redirect(new URL('/sign-in',req.url));
         }
         // trying to access  API routes other than download or compress video 
         if(isApiRequest &&!isPublicApiRoute(req)){ 
-            return NextResponse.redirect(new URL('/signin',req.url));
+            return NextResponse.redirect(new URL('/sign-in',req.url));
     }
 }
 
@@ -36,4 +38,4 @@ export default  clerkMiddleware (async (auth,req)=>{
 
 export const config = {
     matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
-}
+};
