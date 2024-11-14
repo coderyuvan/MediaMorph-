@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
 import { CldImage } from 'next-cloudinary'
+import { Container } from 'postcss';
 
 const socialFormats = {
   "Instagram Square (1:1)": { width: 1080, height: 1080, aspectRatio: "1:1" },
@@ -70,7 +71,8 @@ export default function SocialShare() {
   }
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl">
+     
+    <div className="container mx-auto p-4 max-w-4xl ">
       <h1 className="text-4xl font-bold mb-6 text-center bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
         MediaMorph
       </h1>

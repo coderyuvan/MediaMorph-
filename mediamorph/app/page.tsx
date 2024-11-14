@@ -1,101 +1,200 @@
-import Image from "next/image";
+"use client";
+import { motion } from "framer-motion";
+import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useClerk, useUser } from "@clerk/nextjs";
+import {
+  LogOutIcon,
+  MenuIcon,
+  LayoutDashboardIcon,
+  Share2Icon,
+  UploadIcon,
+  ImageIcon,
+} from "lucide-react";
+import { AuroraBackground } from "@/components/ui/aurora-background";
+import { Vortex } from "@/components/ui/vortex";
 
-export default function Home() {
+const sidebarItems = [
+  { href: "/home", icon: LayoutDashboardIcon, label: "Home Page" },
+  { href: "/social-share", icon: Share2Icon, label: "Social Share" },
+  { href: "/video-upload", icon: UploadIcon, label: "Video Upload" },
+];
+
+export default function AppLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+  const { signOut } = useClerk();
+  const { user, isSignedIn } = useUser();
+
+  const handleLogoClick = () => {
+    router.push("/");
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+  
+  
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <AuroraBackground>
+      <motion.div
+        initial={{ opacity: 0.0, y: 80 }}
+        whileInView={{ opacity: 0.2, y: 0 }}
+        transition={{
+          delay: 0.3,
+          duration: 0.8,
+          ease: "easeInOut",
+        }}
+        className="relative flex flex-col gap-4 items-center justify-center px-4"
+      ></motion.div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <div className="drawer lg:drawer-open">
+        <input
+          id="sidebar-drawer"
+          type="checkbox"
+          className="drawer-toggle"
+          checked={sidebarOpen}
+          onChange={() => setSidebarOpen(!sidebarOpen)}
+        />
+        <div className="drawer-content flex flex-col">
+          {/* Navbar */}
+          <header className="w-full bg-base-200">
+            <div className="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex-none lg:hidden">
+                <label
+                  htmlFor="sidebar-drawer"
+                  className="btn btn-square btn-ghost drawer-button"
+                >
+                  <MenuIcon />
+                </label>
+              </div>
+              <div className="flex-1">
+                <Link href="/" onClick={handleLogoClick}>
+                  <div className="  normal-case text-2xl font-bold tracking-tight cursor-pointer pt-12">
+                    MediaMorph
+                  </div>
+                </Link>
+              </div>
+              <div className="flex-none flex items-center space-x-4">
+                {user && (
+                  <>
+                    <div className="avatar">
+                      <div className="w-8 h-8 rounded-full">
+                        <img
+                          src={user.imageUrl}
+                          alt={user.username || user.emailAddresses[0].emailAddress}
+                        />
+                      </div>
+                    </div>
+                    <span
+                      className="hidden sm:block text-sm truncate max-w-xs lg:max-w-md tooltip tooltip-bottom"
+                      data-tip={user.emailAddresses[0].emailAddress}
+                    >
+                      {user.username || user.emailAddresses[0].emailAddress}
+                    </span>
+                    <button
+                      onClick={handleSignOut}
+                      className="btn btn-ghost btn-circle"
+                    >
+                      <LogOutIcon className="h-6 w-6" />
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </header>
+          {/* Page content */}
+          <main className="flex-grow">
+            <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 my-8">
+              {pathname === "/" ? (
+                <div className="flex items-center justify-center min-h-[calc(100vh-80px)] bg-gradient-to-bl from-cupcake-pink via-white to-indigo-300 rounded-lg shadow-lg p-8">
+                  <div className="text-center max-w-md mx-auto bg-white p-12 rounded-xl shadow-xl animate-fade-in-scale">
+                    <h1 className="text-4xl font-extrabold text-gray-900 mb-5">
+                      Welcome to <span className="text-pink-500">MediaMorph</span>
+                    </h1>
+                    <p className="text-gray-600 text-lg font-bold mb-8">
+                      Transform your media effortlessly with AI!
+                    </p>
+                    {!isSignedIn ? (
+                      <div className="flex flex-col gap-6">
+                        <div className="text-center flex gap-4">
+                          <p className="text-gray-600 mb-2 text-lg ml-24 font-bold">New user? </p>
+                          <Link href="/sign-up">
+                            <span className="text-lg font-semibold text-blue-600 hover:text-blue-800 cursor-pointer transform transition hover:scale-105">
+                              Sign Up
+                            </span>
+                          </Link>
+                        </div>
+
+                        <div className="text-center flex gap-4">
+                          <p className="text-gray-600 mb-2 ml-20 text-lg font-bold">Already a user?</p>
+                          <Link href="/sign-in">
+                            <span className="text-lg font-semibold text-blue-600 hover:text-blue-800 cursor-pointer transform transition hover:scale-105">
+                              Sign In
+                            </span>
+                          </Link>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-gray-700 text-xl">
+                        Welcome back,{" "}
+                        <span className="font-semibold text-indigo-600">
+                          {user?.firstName || "User"}!
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                children
+              )}
+            </div>
+          </main>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <div className="drawer-side relative z-20">
+          <label htmlFor="sidebar-drawer" className="drawer-overlay"></label>
+          <aside className="bg-base-200 w-64 h-full flex flex-col">
+            <div className="flex items-center justify-center py-4">
+              <ImageIcon className="w-10 h-10 text-primary" />
+            </div>
+            <ul className="menu p-4 w-full text-base-content flex-grow">
+              {sidebarItems.map((item) => (
+                <li key={item.href} className="mb-2">
+                  <Link
+                    href={item.href}
+                    className={`flex items-center space-x-4 px-4 py-2 rounded-lg ${
+                      pathname === item.href
+                        ? "bg-primary text-white"
+                        : "hover:bg-base-300"
+                    }`}
+                    onClick={() => setSidebarOpen(false)}
+                  >
+                    <item.icon className="w-6 h-6" />
+                    <span>{item.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            {user && (
+              <div className="p-4">
+                <button
+                  onClick={handleSignOut}
+                  className="btn btn-outline btn-error w-full"
+                >
+                  <LogOutIcon className="mr-2 h-5 w-5" />
+                  Sign Out
+                </button>
+              </div>
+            )}
+          </aside>
+        </div>
+      </div>
+    </AuroraBackground>
   );
 }

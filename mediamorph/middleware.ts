@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server'
 const isPublicRoute=createRouteMatcher([
     "/sign-in",
     "/sign-up",
-    "/",
-    "/home"
+    "/home",
+     "/"
 ])
 const isPublicApiRoute =createRouteMatcher([
     "/api/videos",
@@ -17,6 +17,7 @@ export default  clerkMiddleware (async (auth,req)=>{
     const isAccessingDashboard = currentUrl.pathname ==="/home" 
     const isApiRequest=currentUrl.pathname.startsWith("/api")
 
+    
     if(userId && isPublicRoute(req) && !isAccessingDashboard) {
         return NextResponse.redirect(new URL('/home',req.url));
     }
