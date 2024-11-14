@@ -13,7 +13,6 @@ import {
   ImageIcon,
 } from "lucide-react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
-import { Vortex } from "@/components/ui/vortex";
 
 const sidebarItems = [
   { href: "/home", icon: LayoutDashboardIcon, label: "Home Page" },
@@ -39,21 +38,9 @@ export default function AppLayout({
   const handleSignOut = async () => {
     await signOut();
   };
-  
-  
+
   return (
     <AuroraBackground>
-      <motion.div
-        initial={{ opacity: 0.0, y: 80 }}
-        whileInView={{ opacity: 0.2, y: 0 }}
-        transition={{
-          delay: 0.3,
-          duration: 0.8,
-          ease: "easeInOut",
-        }}
-        className="relative flex flex-col gap-4 items-center justify-center px-4"
-      ></motion.div>
-
       <div className="drawer lg:drawer-open">
         <input
           id="sidebar-drawer"
@@ -64,8 +51,8 @@ export default function AppLayout({
         />
         <div className="drawer-content flex flex-col">
           {/* Navbar */}
-          <header className="w-full bg-base-200">
-            <div className="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <header className="w-full bg-base-200 shadow">
+            <div className="navbar flex items-center justify-between px-4 sm:px-6 lg:px-8">
               <div className="flex-none lg:hidden">
                 <label
                   htmlFor="sidebar-drawer"
@@ -76,7 +63,7 @@ export default function AppLayout({
               </div>
               <div className="flex-1">
                 <Link href="/" onClick={handleLogoClick}>
-                  <div className="  normal-case text-2xl font-bold tracking-tight cursor-pointer pt-12">
+                  <div className="text-2xl font-bold cursor-pointer">
                     MediaMorph
                   </div>
                 </Link>
@@ -92,12 +79,6 @@ export default function AppLayout({
                         />
                       </div>
                     </div>
-                    <span
-                      className="hidden sm:block text-sm truncate max-w-xs lg:max-w-md tooltip tooltip-bottom"
-                      data-tip={user.emailAddresses[0].emailAddress}
-                    >
-                      {user.username || user.emailAddresses[0].emailAddress}
-                    </span>
                     <button
                       onClick={handleSignOut}
                       className="btn btn-ghost btn-circle"
@@ -111,10 +92,10 @@ export default function AppLayout({
           </header>
           {/* Page content */}
           <main className="flex-grow">
-            <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 my-8">
+            <div className="max-w-full px-4 sm:px-6 lg:px-8 my-8">
               {pathname === "/" ? (
-                <div className="flex items-center justify-center min-h-[calc(100vh-80px)] bg-gradient-to-bl from-cupcake-pink via-white to-indigo-300 rounded-lg shadow-lg p-8">
-                  <div className="text-center max-w-md mx-auto bg-white p-12 rounded-xl shadow-xl animate-fade-in-scale">
+                <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-4">
+                  <div className="text-center max-w-md w-full bg-white p-6 md:p-12 rounded-xl shadow-xl">
                     <h1 className="text-4xl font-extrabold text-gray-900 mb-5">
                       Welcome to <span className="text-pink-500">MediaMorph</span>
                     </h1>
@@ -123,19 +104,23 @@ export default function AppLayout({
                     </p>
                     {!isSignedIn ? (
                       <div className="flex flex-col gap-6">
-                        <div className="text-center flex gap-4">
-                          <p className="text-gray-600 mb-2 text-lg ml-24 font-bold">New user? </p>
+                        <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+                          <p className="text-gray-600 text-lg font-bold">
+                            New user?
+                          </p>
                           <Link href="/sign-up">
-                            <span className="text-lg font-semibold text-blue-600 hover:text-blue-800 cursor-pointer transform transition hover:scale-105">
+                            <span className="text-lg font-semibold text-blue-600 hover:text-blue-800 cursor-pointer">
                               Sign Up
                             </span>
                           </Link>
                         </div>
 
-                        <div className="text-center flex gap-4">
-                          <p className="text-gray-600 mb-2 ml-20 text-lg font-bold">Already a user?</p>
+                        <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+                          <p className="text-gray-600 text-lg font-bold">
+                            Already a user?
+                          </p>
                           <Link href="/sign-in">
-                            <span className="text-lg font-semibold text-blue-600 hover:text-blue-800 cursor-pointer transform transition hover:scale-105">
+                            <span className="text-lg font-semibold text-blue-600 hover:text-blue-800 cursor-pointer">
                               Sign In
                             </span>
                           </Link>
@@ -157,15 +142,15 @@ export default function AppLayout({
             </div>
           </main>
         </div>
-        <div className="drawer-side relative z-20">
+        <div className="drawer-side">
           <label htmlFor="sidebar-drawer" className="drawer-overlay"></label>
-          <aside className="bg-base-200 w-64 h-full flex flex-col">
+          <aside className="bg-base-200 w-64 flex flex-col h-full">
             <div className="flex items-center justify-center py-4">
               <ImageIcon className="w-10 h-10 text-primary" />
             </div>
-            <ul className="menu p-4 w-full text-base-content flex-grow">
+            <ul className="menu p-4 flex-grow">
               {sidebarItems.map((item) => (
-                <li key={item.href} className="mb-2">
+                <li key={item.href}>
                   <Link
                     href={item.href}
                     className={`flex items-center space-x-4 px-4 py-2 rounded-lg ${
@@ -173,7 +158,6 @@ export default function AppLayout({
                         ? "bg-primary text-white"
                         : "hover:bg-base-300"
                     }`}
-                    onClick={() => setSidebarOpen(false)}
                   >
                     <item.icon className="w-6 h-6" />
                     <span>{item.label}</span>
