@@ -8,8 +8,6 @@ Developed using the Next.js framework for a robust, scalable, and highly perform
 
 # Advanced Technology Stack:
 
-Zod: Ensures robust data validation and schema definition, enhancing input security and integrity.
-Zustand: Manages state efficiently to provide a smooth user experience.
 Clerk: Powers user authentication and management, ensuring secure and streamlined access control.
 DaisyUI: Integrates a modern and responsive user interface with an emphasis on aesthetic and user-friendly design.
 Prisma: Serves as the ORM for seamless database interactions, enabling flexible and type-safe data management.
@@ -32,4 +30,4 @@ Empowers users to manage, convert, and compress media files effortlessly, saving
 
 
 # brief summary
-MediaMorph: Developed a full-stack SaaS application using Next.js with technologies like Zod, Zustand, Clerk, DaisyUI, Prisma, and NeonDB. Integrated Cloudinary AI for automated image resizing tailored to social media platforms like Instagram, Twitter etc . Built advanced video compression tools for downloadable, optimized media. Focused on delivering a seamless, user-friendly experience with visually appealing UI/UX.
+MediaMorph: Developed a full-stack SaaS application using Next.js with technologies like  Clerk, DaisyUI, Prisma, and NeonDB. Integrated Cloudinary AI for automated image resizing tailored to social media platforms like Instagram, Twitter etc . Built advanced video compression tools for downloadable, optimized media. Focused on delivering a seamless, user-friendly experience with visually appealing UI/UX.
