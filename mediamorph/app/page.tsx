@@ -1,8 +1,9 @@
 "use client";
+
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useClerk, useUser } from "@clerk/nextjs";
 import {
   LogOutIcon,
@@ -20,7 +21,6 @@ const sidebarItems = [
   { href: "/video-upload", icon: UploadIcon, label: "Video Upload" },
 ];
 
-// Reusable SignOut Button Component
 const SignOutButton = ({ onSignOut }: { onSignOut: () => void }) => (
   <button onClick={onSignOut} className="btn btn-outline btn-error w-full">
     <LogOutIcon className="mr-2 h-5 w-5" />
@@ -28,18 +28,12 @@ const SignOutButton = ({ onSignOut }: { onSignOut: () => void }) => (
   </button>
 );
 
-export default function AppLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const pathname = usePathname();
   const router = useRouter();
+  const pathname = usePathname();
   const { signOut } = useClerk();
   const { user, isSignedIn } = useUser();
-
-  const handleLogoClick = () => {
-    router.push("/");
-  };
 
   const handleSignOut = async () => {
     try {
@@ -73,7 +67,7 @@ export default function AppLayout({
                 </label>
               </div>
               <div className="flex-1">
-                <Link href="/" onClick={handleLogoClick}>
+                <Link href="/">
                   <div className="text-2xl font-bold cursor-pointer">
                     MediaMorph
                   </div>
@@ -86,7 +80,9 @@ export default function AppLayout({
                       <div className="w-8 h-8 rounded-full">
                         <img
                           src={user.imageUrl}
-                          alt={user.username || user.emailAddresses[0]?.emailAddress}
+                          alt={
+                            user.username || user.emailAddresses[0]?.emailAddress
+                          }
                         />
                       </div>
                     </div>
@@ -102,63 +98,60 @@ export default function AppLayout({
               </div>
             </div>
           </header>
-          {/* Page content */}
+          {/* Page Content */}
           <main className="flex-grow">
             <div className="max-w-full px-4 sm:px-6 lg:px-8 my-8">
-              {pathname === "/" ? (
-                <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-4">
-                  <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center max-w-md w-full bg-white p-6 md:p-12 rounded-xl shadow-xl"
-                  >
-                    <h1 className="text-4xl font-extrabold text-gray-900 mb-5">
-                      Welcome to <span className="text-pink-500">MediaMorph</span>
-                    </h1>
-                    <p className="text-gray-600 text-lg font-bold mb-8">
-                      Transform your media effortlessly with AI!
-                    </p>
-                    {!isSignedIn ? (
-                      <div className="flex flex-col gap-6">
-                        <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-                          <p className="text-gray-600 text-lg font-bold">
-                            New user?
-                          </p>
-                          <Link href="/sign-up">
-                            <span className="text-lg font-semibold text-blue-600 hover:text-blue-800 cursor-pointer">
-                              Sign Up
-                            </span>
-                          </Link>
-                        </div>
-
-                        <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-                          <p className="text-gray-600 text-lg font-bold">
-                            Already a user?
-                          </p>
-                          <Link href="/sign-in">
-                            <span className="text-lg font-semibold text-blue-600 hover:text-blue-800 cursor-pointer">
-                              Sign In
-                            </span>
-                          </Link>
-                        </div>
+              <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-4">
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-center max-w-md w-full bg-white p-6 md:p-12 rounded-xl shadow-xl"
+                >
+                  <h1 className="text-4xl font-extrabold text-gray-900 mb-5">
+                    Welcome to <span className="text-pink-500">MediaMorph</span>
+                  </h1>
+                  <p className="text-gray-600 text-lg font-bold mb-8">
+                    Transform your media effortlessly with AI!
+                  </p>
+                  {!isSignedIn ? (
+                    <div className="flex flex-col gap-6">
+                      <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+                        <p className="text-gray-600 text-lg font-bold">
+                          New user?
+                        </p>
+                        <Link href="/sign-up">
+                          <span className="text-lg font-semibold text-blue-600 hover:text-blue-800 cursor-pointer">
+                            Sign Up
+                          </span>
+                        </Link>
                       </div>
-                    ) : (
-                      <p className="text-gray-700 text-xl">
-                        Welcome back,{" "}
-                        <span className="font-semibold text-indigo-600">
-                          {user?.firstName || "User"}!
-                        </span>
-                      </p>
-                    )}
-                  </motion.div>
-                </div>
-              ) : (
-                children
-              )}
+
+                      <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+                        <p className="text-gray-600 text-lg font-bold">
+                          Already a user?
+                        </p>
+                        <Link href="/sign-in">
+                          <span className="text-lg font-semibold text-blue-600 hover:text-blue-800 cursor-pointer">
+                            Sign In
+                          </span>
+                        </Link>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-gray-700 text-xl">
+                      Welcome back,{" "}
+                      <span className="font-semibold text-indigo-600">
+                        {user?.firstName || "User"}!
+                      </span>
+                    </p>
+                  )}
+                </motion.div>
+              </div>
             </div>
           </main>
         </div>
+        {/* Sidebar */}
         <motion.div
           initial={{ x: -300 }}
           animate={{ x: 0 }}
