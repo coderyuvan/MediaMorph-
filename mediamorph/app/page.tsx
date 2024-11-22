@@ -20,11 +20,17 @@ const sidebarItems = [
   { href: "/video-upload", icon: UploadIcon, label: "Video Upload" },
 ];
 
+// Reusable SignOut Button Component
+const SignOutButton = ({ onSignOut }: { onSignOut: () => void }) => (
+  <button onClick={onSignOut} className="btn btn-outline btn-error w-full">
+    <LogOutIcon className="mr-2 h-5 w-5" />
+    Sign Out
+  </button>
+);
+
 export default function AppLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -36,7 +42,11 @@ export default function AppLayout({
   };
 
   const handleSignOut = async () => {
-    await signOut();
+    try {
+      await signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
   return (
@@ -57,6 +67,7 @@ export default function AppLayout({
                 <label
                   htmlFor="sidebar-drawer"
                   className="btn btn-square btn-ghost drawer-button"
+                  aria-label="Toggle Sidebar"
                 >
                   <MenuIcon />
                 </label>
@@ -75,13 +86,14 @@ export default function AppLayout({
                       <div className="w-8 h-8 rounded-full">
                         <img
                           src={user.imageUrl}
-                          alt={user.username || user.emailAddresses[0].emailAddress}
+                          alt={user.username || user.emailAddresses[0]?.emailAddress}
                         />
                       </div>
                     </div>
                     <button
                       onClick={handleSignOut}
                       className="btn btn-ghost btn-circle"
+                      aria-label="Sign Out"
                     >
                       <LogOutIcon className="h-6 w-6" />
                     </button>
@@ -95,7 +107,12 @@ export default function AppLayout({
             <div className="max-w-full px-4 sm:px-6 lg:px-8 my-8">
               {pathname === "/" ? (
                 <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-4">
-                  <div className="text-center max-w-md w-full bg-white p-6 md:p-12 rounded-xl shadow-xl">
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center max-w-md w-full bg-white p-6 md:p-12 rounded-xl shadow-xl"
+                  >
                     <h1 className="text-4xl font-extrabold text-gray-900 mb-5">
                       Welcome to <span className="text-pink-500">MediaMorph</span>
                     </h1>
@@ -134,7 +151,7 @@ export default function AppLayout({
                         </span>
                       </p>
                     )}
-                  </div>
+                  </motion.div>
                 </div>
               ) : (
                 children
@@ -142,7 +159,12 @@ export default function AppLayout({
             </div>
           </main>
         </div>
-        <div className="drawer-side">
+        <motion.div
+          initial={{ x: -300 }}
+          animate={{ x: 0 }}
+          exit={{ x: -300 }}
+          className="drawer-side"
+        >
           <label htmlFor="sidebar-drawer" className="drawer-overlay"></label>
           <aside className="bg-base-200 w-64 flex flex-col h-full">
             <div className="flex items-center justify-center py-4">
@@ -154,7 +176,7 @@ export default function AppLayout({
                   <Link
                     href={item.href}
                     className={`flex items-center space-x-4 px-4 py-2 rounded-lg ${
-                      pathname === item.href
+                      pathname.startsWith(item.href)
                         ? "bg-primary text-white"
                         : "hover:bg-base-300"
                     }`}
@@ -167,17 +189,11 @@ export default function AppLayout({
             </ul>
             {user && (
               <div className="p-4">
-                <button
-                  onClick={handleSignOut}
-                  className="btn btn-outline btn-error w-full"
-                >
-                  <LogOutIcon className="mr-2 h-5 w-5" />
-                  Sign Out
-                </button>
+                <SignOutButton onSignOut={handleSignOut} />
               </div>
             )}
           </aside>
-        </div>
+        </motion.div>
       </div>
     </AuroraBackground>
   );
