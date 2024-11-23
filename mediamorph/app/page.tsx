@@ -55,49 +55,56 @@ export default function AppLayout() {
         />
         <div className="drawer-content flex flex-col">
           {/* Navbar */}
-          <header className="w-full bg-base-200 shadow">
-            <div className="navbar flex items-center justify-between px-4 sm:px-6 lg:px-8">
-              <div className="flex-none lg:hidden">
-                <label
-                  htmlFor="sidebar-drawer"
-                  className="btn btn-square btn-ghost drawer-button"
-                  aria-label="Toggle Sidebar"
-                >
-                  <MenuIcon />
-                </label>
-              </div>
-              <div className="flex-1">
-                <Link href="/">
-                  <div className="text-2xl font-bold cursor-pointer">
-                    MediaMorph
-                  </div>
-                </Link>
-              </div>
-              <div className="flex-none flex items-center space-x-4">
-                {user && (
-                  <>
-                    <div className="avatar">
-                      <div className="w-8 h-8 rounded-full">
-                        <img
-                          src={user.imageUrl}
-                          alt={
-                            user.username || user.emailAddresses[0]?.emailAddress
-                          }
-                        />
-                      </div>
-                    </div>
-                    <button
-                      onClick={handleSignOut}
-                      className="btn btn-ghost btn-circle"
-                      aria-label="Sign Out"
-                    >
-                      <LogOutIcon className="h-6 w-6" />
-                    </button>
-                  </>
-                )}
-              </div>
+          <header className="w-full pt-4 bg-base-200 shadow">
+  <div className="navbar flex flex-wrap items-center   justify-between px-4 sm:px-8 h-auto space-y-2 lg:space-y-0 lg:px-8">
+    {/* Sidebar Toggle Button (Visible on Mobile Only) */}
+    <div className="flex-none lg:hidden">
+      <label
+        htmlFor="sidebar-drawer"
+        className="btn btn-square btn-ghost drawer-button"
+        aria-label="Toggle Sidebar"
+      >
+        <MenuIcon />
+      </label>
+    </div>
+
+    {/* Branding / Title */}
+    <div className="flex-1 text-center lg:text-left">
+      <Link href="/">
+        <div className="text-xl sm:text-2xl lg:text-3xl font-bold cursor-pointer truncate">
+          MediaMorph
+        </div>
+      </Link>
+    </div>
+
+    {/* User Actions */}
+    <div className="flex-none flex items-center space-x-4">
+      {user ? (
+        <>
+          {/* User Avatar */}
+          <div className="avatar">
+            <div className="w-8 sm:h-14  border-black rounded-full ">
+              <img
+               
+                src={user.imageUrl}
+                alt={user.username || user.emailAddresses[0]?.emailAddress}
+              />
             </div>
-          </header>
+          </div>
+          {/* Sign Out Button */}
+          <button
+            onClick={handleSignOut}
+            className="btn btn-ghost btn-circle"
+            aria-label="Sign Out"
+          >
+            <LogOutIcon className="h-6 w-6" />
+          </button>
+        </>
+      ) : null}
+    </div>
+  </div>
+</header>
+
           {/* Page Content */}
           <main className="flex-grow">
             <div className="max-w-full px-4 sm:px-6 lg:px-8 my-8">

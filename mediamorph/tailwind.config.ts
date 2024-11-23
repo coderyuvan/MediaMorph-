@@ -32,7 +32,7 @@ const config: Config = {
   },
   plugins: [daisyui,addVariablesForColors],
   daisyui: {
-    themes: [ "cupcake"],
+    themes: [ "autumn"],
   },
 };
 function addVariablesForColors({ addBase, theme }: any) {
