@@ -116,14 +116,14 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload }) => {
         <div className="flex items-center">
           <FileUp size={18} className="mr-2 text-primary" />
           <div>
-            <div className="font-semibold">Original</div>
+            <div className=" dark:bg-red-500 semibold">Original</div>
             <div>{formatSize(Number(video.originalSize))}</div>
           </div>
         </div>
         <div className="flex items-center">
           <FileDown size={18} className="mr-2 text-secondary" />
           <div>
-            <div className="font-semibold">Compressed</div>
+            <div className="dark:text-gray-500 font-semibold">Compressed</div>
             <div>{formatSize(Number(video.compressedSize))}</div>
           </div>
         </div>

@@ -9,6 +9,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+    darkMode:'class',
   theme: {
     extend: {
       animation: {
@@ -32,7 +33,19 @@ const config: Config = {
   },
   plugins: [daisyui,addVariablesForColors],
   daisyui: {
-    themes: [ "autumn"],
+    themes: [ {
+      autumn: {
+        primary: '#FF5724',
+        secondary: '#FEA82F',
+        accent: '#6D9886',
+        neutral: '#212121',
+        'base-100': '#303030', // Background color in dark mode
+        info: '#3ABFF8',
+        success: '#36D399',
+        warning: '#FBBD23',
+        error: '#F87272',
+      },
+    },],
   },
 };
 function addVariablesForColors({ addBase, theme }: any) {

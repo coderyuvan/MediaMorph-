@@ -55,8 +55,8 @@ export default function AppLayout() {
         />
         <div className="drawer-content flex flex-col">
           {/* Navbar */}
-          <header className="w-full pt-4 bg-base-200 shadow">
-  <div className="navbar flex flex-wrap items-center   justify-between px-4 sm:px-8 h-auto space-y-2 lg:space-y-0 lg:px-8">
+          <header className="w-full pt-4 dark:bg-base-200 shadow ">
+  <div className="navbar flex flex-wrap items-center   justify-between px-4 sm:px-8 h-auto space-y-2 lg:space-y-0 lg:px-8 ">
     {/* Sidebar Toggle Button (Visible on Mobile Only) */}
     <div className="flex-none lg:hidden">
       <label
