@@ -55,8 +55,8 @@ const VideoUpload = () => {
 
   return (
      
-      <div className="container mx-auto p-8 md:pb-24  bg-gray-50 min-h-screen flex items-center justify-center">
-        <div className="bg-white rounded-lg shadow-xl p-8 max-w-lg w-full">
+      <div className="container mx-auto p-5 md:pb-24  bg-gray-50 min-h-screen flex items-center justify-center  sm:pb-24">
+        <div className="bg-white rounded-lg shadow-xl p-8 pt-5 mb-32 sm:mb-28 max-w-lg w-full">
           <h1 className="text-3xl font-bold text-center text-gray-900 mb-6">Upload Your Video</h1>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -89,7 +89,7 @@ const VideoUpload = () => {
                 />
                 <label
                   htmlFor="file-input"
-                  className="file-label w-full p-4 border-2 border-gray-300 rounded-lg cursor-pointer text-center text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                  className="file-label w-full p-4 border-2 border-gray-300 rounded-lg cursor-pointer text-center text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 "
                 >
                   {file ? `Selected: ${file.name}` : 'Choose a video file'}
                 </label>
@@ -97,7 +97,7 @@ const VideoUpload = () => {
             </div>
             <button
               type="submit"
-              className={`btn w-full p-3 text-white text-xl font-semibold rounded-lg transition-all duration-300 ${
+              className={`btn w-full p-3   text-white text-xl font-semibold rounded-lg transition-all duration-300 mt ${
                 isUploading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
               }`}
               disabled={isUploading}
