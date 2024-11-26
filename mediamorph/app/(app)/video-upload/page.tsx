@@ -54,7 +54,7 @@ const VideoUpload = () => {
 
   return (
      
-      <div className="container mx-auto p-5 md:pb-24  bg-gray-50 min-h-screen flex items-center justify-center  sm:pb-24">
+      <div className="container mx-auto p-5 md:pb-24    min-h-screen flex items-center justify-center  sm:pb-24">
         <div className="bg-white rounded-lg shadow-xl p-8 pt-5 mb-32 sm:mb-28 max-w-lg w-full">
           <h1 className="text-3xl font-bold text-center text-gray-900 mb-6">Upload Your Video</h1>
           <form onSubmit={handleSubmit} className="space-y-6">
