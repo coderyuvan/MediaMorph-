@@ -1,7 +1,7 @@
 "use client";
-
+ 
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useClerk, useUser } from "@clerk/nextjs";
@@ -14,6 +14,7 @@ import {
   ImageIcon,
 } from "lucide-react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
+ 
 
 const sidebarItems = [
   { href: "/home", icon: LayoutDashboardIcon, label: "Home Page" },
@@ -27,7 +28,7 @@ const SignOutButton = ({ onSignOut }: { onSignOut: () => void }) => (
     Sign Out
   </button>
 );
-
+ 
 export default function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
@@ -42,9 +43,10 @@ export default function AppLayout() {
       console.error("Error signing out:", error);
     }
   };
-
+ 
   return (
-    <AuroraBackground>
+     
+     
       <div className="drawer lg:drawer-open">
         <input
           id="sidebar-drawer"
@@ -55,8 +57,10 @@ export default function AppLayout() {
         />
         <div className="drawer-content flex flex-col">
           {/* Navbar */}
-          <header className="w-full pt-4 dark:bg-base-200 shadow ">
-  <div className="navbar flex flex-wrap items-center   justify-between px-4 sm:px-8 h-auto space-y-2 lg:space-y-0 lg:px-8 ">
+          <header className="w-full pt-4  shadow ">
+  <div className="navbar flex flex-wrap items-center   justify-between px-4 sm:px-8 h-auto space-y-2 lg:space-y-0 lg:px-8 "
+   
+  >
     {/* Sidebar Toggle Button (Visible on Mobile Only) */}
     <div className="flex-none lg:hidden">
       <label
@@ -71,7 +75,7 @@ export default function AppLayout() {
     {/* Branding / Title */}
     <div className="flex-1 text-center lg:text-left">
       <Link href="/">
-        <div className="text-xl sm:text-2xl lg:text-3xl font-bold cursor-pointer truncate">
+        <div className="text-xl   sm:text-2xl lg:text-3xl font-bold cursor-pointer truncate">
           MediaMorph
         </div>
       </Link>
@@ -195,6 +199,6 @@ export default function AppLayout() {
           </aside>
         </motion.div>
       </div>
-    </AuroraBackground>
+     
   );
 }

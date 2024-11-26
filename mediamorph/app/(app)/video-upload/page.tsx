@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
-import { AuroraBackground } from '@/components/ui/aurora-background';
-import { motion } from 'framer-motion';
+ 
 
 const VideoUpload = () => {
   const [file, setFile] = useState<File | null>(null);
