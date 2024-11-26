@@ -9,7 +9,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-    darkMode:'class',
+  darkMode: 'class',
   theme: {
     extend: {
       animation: {
@@ -31,22 +31,25 @@ const config: Config = {
       },
     },
   },
-  plugins: [daisyui,addVariablesForColors],
+  plugins: [daisyui, addVariablesForColors],
   daisyui: {
     themes: [
-       "autumn"
+      "autumn",
+
+      "dark",
+      "light",
     ],
   },
-  
-  
-  
+
+
+
 };
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
   let newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
- 
+
   addBase({
     ":root": newVars,
   });

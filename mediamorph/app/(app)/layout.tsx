@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useClerk, useUser } from "@clerk/nextjs";
+import { ShootingStars } from "@/components/ui/shooting-stars";
+import { StarsBackground } from "@/components/ui/stars-background";
 import {
   LogOutIcon,
   MenuIcon,
@@ -39,7 +41,7 @@ export default function AppLayout({
   };
 
   return (
-    <div className="drawer lg:drawer-open">
+    <div className="drawer lg:drawer-open bg-gray-600">
       <input
         id="sidebar-drawer"
         type="checkbox"
@@ -141,6 +143,8 @@ export default function AppLayout({
           )}
         </aside>
       </div>
+      <ShootingStars />
+      <StarsBackground />
     </div>
   );
 }
